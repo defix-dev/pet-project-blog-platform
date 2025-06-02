@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.defix.blog.db.entity.Role;
 import ru.defix.blog.db.entity.User;
 import ru.defix.blog.db.repository.UserRepository;
+import ru.defix.blog.user.exception.UserNotFoundException;
 import ru.defix.blog.user.service.dto.UserSaveParams;
 
 import java.util.Collections;
@@ -32,5 +33,9 @@ public class UserService {
         user.setRoles(Collections.singleton(User.defaultRole));
 
         userRepository.save(user);
+    }
+
+    public User getById(int id) {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 }
