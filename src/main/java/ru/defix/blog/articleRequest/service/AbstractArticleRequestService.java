@@ -21,12 +21,11 @@ public abstract class AbstractArticleRequestService<RT, CP extends RequestParams
     @PreAuthorize("hasRole('ADMIN') or #params.submitterId() == principal.id")
     public void createRequest(CP params) {
         savePayload(requestService.createRequest(
-                extractSubmitterId(params),
+                params.submitterId(),
                 getRequestType()
         ), params);
     }
 
     protected abstract ArticleRequest.Type getRequestType();
-    protected abstract int extractSubmitterId(CP params);
     protected abstract void savePayload(ArticleRequest productRequest, CP params);
 }

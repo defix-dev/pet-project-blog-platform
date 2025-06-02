@@ -31,11 +31,11 @@ CREATE TABLE articles
 
 CREATE TABLE articles_metadata
 (
-    article_id INT REFERENCES articles(id) NOT NULL PRIMARY KEY,
-    tags   VARCHAR(64)[] NOT NULL,
-    rating NUMERIC(3, 2) NOT NULL DEFAULT 0 CHECK ( rating >= 0 AND rating <= 5 ),
-    views INT NOT NULL DEFAULT 0,
-    rating_count INT NOT NULL DEFAULT 0
+    article_id   INT REFERENCES articles (id) NOT NULL PRIMARY KEY,
+    tags         VARCHAR(64)[] NOT NULL,
+    rating       NUMERIC(3, 2)                NOT NULL DEFAULT 0 CHECK ( rating >= 0 AND rating <= 5 ),
+    views        INT                          NOT NULL DEFAULT 0,
+    rating_count INT                          NOT NULL DEFAULT 0
 );
 
 CREATE TABLE comments
@@ -60,7 +60,8 @@ CREATE TABLE article_create_requests
 (
     request_id INT REFERENCES article_requests (id) NOT NULL PRIMARY KEY,
     content    TEXT                                 NOT NULL,
-    tags       VARCHAR(64)[]                        NOT NULL
+    tags       VARCHAR(64)[]                        NOT NULL,
+    TITLE      TEXT                                 NOT NULL
 );
 
 CREATE INDEX idx_articles_metadata_tags ON articles_metadata USING GIN (tags);

@@ -33,4 +33,7 @@ public class ArticleCreateRequest {
     @Convert(converter = StringListConverter.class)
     @Column(name = "tags")
     private List<String> tags;
+
+    @Column(name = "title")
+    private String title;
 }

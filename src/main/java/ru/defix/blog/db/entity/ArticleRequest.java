@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @AllArgsConstructor
@@ -17,11 +16,6 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "article_requests", schema = "public", catalog = "blog-db")
 public class ArticleRequest {
-    public enum Status {
-        PENDING,
-        ACCEPTED,
-        REJECTED
-    }
 
     public enum Type {
         CREATE
