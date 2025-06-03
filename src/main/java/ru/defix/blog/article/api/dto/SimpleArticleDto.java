@@ -1,5 +1,7 @@
 package ru.defix.blog.article.api.dto;
 
+import ru.defix.blog.common.api.dto.UserInfo;
+
 import java.sql.Timestamp;
 import java.util.List;
 

@@ -3,7 +3,7 @@ package ru.defix.blog.article.api.util;
 import ru.defix.blog.article.api.dto.ArticleMetadataDto;
 import ru.defix.blog.article.api.dto.DetailedArticleDto;
 import ru.defix.blog.article.api.dto.SimpleArticleDto;
-import ru.defix.blog.article.api.dto.UserInfo;
+import ru.defix.blog.common.api.dto.UserInfo;
 import ru.defix.blog.db.entity.Article;
 
 import java.util.List;
