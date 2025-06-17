@@ -18,8 +18,6 @@ import java.util.Set;
 @Entity
 @Table(name = "users", schema = "public", catalog = "blog-db")
 public class User {
-    public static final Role defaultRole = new Role(1, "ROLE_USER");
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,4 +43,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    public static Role getDefaultRole() {
+        return new Role(1, "ROLE_USER");
+    }
 }

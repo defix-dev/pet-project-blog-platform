@@ -12,6 +12,7 @@ import ru.defix.blog.user.exception.UserNotFoundException;
 import ru.defix.blog.user.service.dto.UserSaveParams;
 
 import java.util.Collections;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -30,7 +31,7 @@ public class UserService {
         user.setUsername(params.username());
         user.setEmail(params.email());
         user.setPassword(encoder.encode(params.password()));
-        user.setRoles(Collections.singleton(User.defaultRole));
+        user.setRoles(Set.of(User.getDefaultRole()));
 
         userRepository.save(user);
     }

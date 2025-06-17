@@ -1,25 +1,24 @@
 package ru.defix.blog.auth.service.jwt;
 
-import ru.defix.blog.auth.exception.InvalidJwtTokenException;
-import ru.defix.blog.auth.service.dto.AccessTokenDetails;
-import ru.defix.blog.auth.service.dto.RefreshTokenDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.GrantedAuthority;
+import ru.defix.blog.auth.exception.InvalidJwtTokenException;
+import ru.defix.blog.auth.service.dto.AccessTokenDetails;
+import ru.defix.blog.auth.service.dto.RefreshTokenDetails;
+import ru.defix.blog.common.util.CodingUtility;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class JwtUtils {
     private static final String SECRET_KEY;
     private static final SecretKeySpec SECRET_KEY_SPEC;
 
     static {
-        SECRET_KEY = System.getenv(JwtConstants.JWT_ENV_NAME);
+        SECRET_KEY = CodingUtility.decode(System.getenv(JwtConstants.JWT_ENV_NAME));
         SECRET_KEY_SPEC = new SecretKeySpec(SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
     }
 
@@ -29,7 +28,7 @@ public class JwtUtils {
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(Date.from(Instant.now().plus(JwtConstants.ACCESS_TOKEN_TTL)))
                 .claim("authorities", details.authorities())
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY_SPEC)
+                .signWith(SECRET_KEY_SPEC)
                 .compact();
     }
 
@@ -38,7 +37,7 @@ public class JwtUtils {
                 .setSubject(details.subject())
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(Date.from(Instant.now().plus(JwtConstants.REFRESH_TOKEN_TTL)))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY_SPEC)
+                .signWith(SECRET_KEY_SPEC)
                 .compact();
     }
 
@@ -51,8 +50,9 @@ public class JwtUtils {
     }
 
     public static RefreshTokenDetails convertStringToRefreshTokenDetails(String refreshToken) {
-        Claims claims = Jwts.parser()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY_SPEC)
+                .build()
                 .parseClaimsJws(refreshToken).getBody();
 
         return new RefreshTokenDetails(
@@ -61,8 +61,9 @@ public class JwtUtils {
     }
 
     public static AccessTokenDetails convertStringToAccessTokenDetails(String accessToken) {
-        Claims claims = Jwts.parser()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY_SPEC)
+                .build()
                 .parseClaimsJws(accessToken).getBody();
 
         return new AccessTokenDetails(
@@ -73,8 +74,9 @@ public class JwtUtils {
 
     public static boolean validateToken(String token) {
         try {
-            Jwts.parser()
+            Jwts.parserBuilder()
                     .setSigningKey(SECRET_KEY_SPEC)
+                    .build()
                     .parseClaimsJws(token)
                     .getBody();
 

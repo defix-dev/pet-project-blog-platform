@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import ru.defix.blog.auth.service.dto.SimpleUserDetails;
 import ru.defix.blog.comment.api.dto.request.CommentCreationRequestParams;
 import ru.defix.blog.comment.api.dto.response.CommentDto;
-import ru.defix.blog.comment.api.util.CommentPreparer;
 import ru.defix.blog.comment.service.CommentService;
 import ru.defix.blog.comment.service.dto.CommentCreationParams;
+import ru.defix.blog.common.util.preparer.Preparer;
 import ru.defix.blog.db.entity.Comment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,12 +27,13 @@ public class CommentControllerV1 {
 
     @GetMapping("/{id}")
     public ResponseEntity<CommentDto> getById(@PathVariable("id") int id) {
-        return ResponseEntity.ok(CommentPreparer.toCommentDto(commentService.getById(id)));
+        return ResponseEntity.ok(Preparer.prepare(commentService.getById(id), CommentDto.class));
     }
 
     @GetMapping
     public ResponseEntity<List<CommentDto>> getAllByArticleId(@RequestParam int articleId) {
-        return ResponseEntity.ok(CommentPreparer.toCommentDtos(commentService.getAllByArticleId(articleId)));
+        return ResponseEntity.ok(Preparer.prepareCollection(new ArrayList<>(commentService.getAllByArticleId(articleId)),
+                CommentDto.class));
     }
 
     @PostMapping

@@ -1,5 +1,6 @@
 package ru.defix.blog.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class Article {
     @JoinColumn(name = "author_id")
     private User author;
 
+    @JsonIgnore
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "content")

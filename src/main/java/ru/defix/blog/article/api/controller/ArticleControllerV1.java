@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.defix.blog.article.api.dto.DetailedArticleDto;
 import ru.defix.blog.article.api.dto.SimpleArticleDto;
-import ru.defix.blog.article.api.util.ArticlePreparer;
 import ru.defix.blog.article.service.ArticleService;
 import ru.defix.blog.article.service.SearchService;
+import ru.defix.blog.common.util.preparer.Preparer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,11 +29,12 @@ public class ArticleControllerV1 {
 
     @GetMapping("/{id}")
     public ResponseEntity<DetailedArticleDto> getById(@NotNull @PathVariable Integer id) {
-        return ResponseEntity.ok(ArticlePreparer.toDetailedArticleDto(articleService.getById(id)));
+        return ResponseEntity.ok(Preparer.prepare(articleService.getById(id), DetailedArticleDto.class));
     }
 
     @GetMapping
     public ResponseEntity<List<SimpleArticleDto>> search(Pageable pageable) {
-        return ResponseEntity.ok(ArticlePreparer.toSimpleArticleDtos(searchService.search(pageable)));
+        return ResponseEntity.ok(Preparer.prepareCollection(new ArrayList<>(searchService.search(pageable)),
+                SimpleArticleDto.class));
     }
 }
