@@ -1,4 +1,4 @@
-# Pet Project Blog Platform
+# Blog Platform
 
 A compact blog platform with authentication, article management, and basic moderation.
 
@@ -40,6 +40,16 @@ docker compose up
 
 App runs on:
 **[http://localhost:8080](http://localhost:8080)**
+
+## Testing
+
+To run the tests, use the following command:
+
+```bash
+mvn clean test
+```
+
+This will execute all the tests in the project.
 
 ## License
 
