@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  bp_postgres:
+  postgres:
     image: postgres:15
     environment:
       - POSTGRES_USER=${DB_USERNAME}
@@ -15,7 +15,7 @@ services:
     volumes:
       - bp_pgdata:/var/lib/postgresql/data
 
-  bp_redis:
+  redis:
     image: redis:8
     ports:
       - "6379:6379"
@@ -28,7 +28,7 @@ services:
       timeout: 3s
       retries: 10
 
-  bp_backend:
+  backend:
     build: .
     ports:
       - "8080:8080"
@@ -43,9 +43,9 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
     depends_on:
-      bp_postgres:
+      postgres:
         condition: service_healthy
-      bp_redis:
+      redis:
         condition: service_healthy
 
 volumes:

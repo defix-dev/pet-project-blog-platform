@@ -10,8 +10,10 @@ import ru.defix.blog.articleRequest.api.dto.response.DetailedArticleRequestDto;
 import ru.defix.blog.articleRequest.api.dto.response.SimpleArticleRequestDto;
 import ru.defix.blog.articleRequest.service.ArticleRequestService;
 import ru.defix.blog.articleRequest.service.ArticleWriteRequestService;
+import ru.defix.blog.articleRequest.service.dto.CreationRequestParams;
 import ru.defix.blog.auth.service.dto.SimpleUserDetails;
 import ru.defix.blog.common.util.preparer.Preparer;
+import ru.defix.blog.db.entity.ArticleRequest;
 
 import java.util.ArrayList;
 import java.util.List;
